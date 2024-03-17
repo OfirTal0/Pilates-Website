@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="he"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/js/classes.js" defer></script>
+    <title>שיעורים</title>
+</head>
+<body>
+    <div class="columnContainer">
+        <div class="navbar">
+            <div class="rightlinks">
+                {% if user_type == "guest" %}
+                <a href="/login_page">כניסה\הרשמה</a>
+                {% elif user_type == "user" or user_type == "admin" %}
+                <div style="display:flex; flex-direction:column;align-items:center;gap:0px;">
+                <h3 style="margin:2px;">שלום {{username}}</h3>
+                <a href="/logout">התנתק\י</a>
+                </div>
+                {% endif %}
+                <a href="https://www.facebook.com/pilatestsofit?locale=he_IL"><img class="linkimg" src="/static/images/facebook.png" ></a>
+                <a href="https://www.instagram.com/tsofit_tal__pilates/"><img class="linkimg" src="/static/images/instagram.png" ></a>
+                <a href="whatsapp://send?phone=+972502558222"><img class="linkimg" src="/static/images/whatsapp.png"></a>
+
+            </div>
+            <div class="middlelinks">
+                <a href="/">ראשי</a>
+                <a href="#על-הסטודיו">על הסטודיו</a>
+                <a href="#מערכת-שעות">מערכת שעות</a>
+                <a href="#גלריה">גלריה</a>
+                <a href="#יצירת-קשר">יצירת קשר</a>
+                {%if user_type== "admin"%}
+                <a href="/admin">ניהול</a>
+                {% endif %}
+            </div>
+
+            <div class="logo">
+                <a href=""><img class="logo" src="/static/images/logo.png" ></a>
+            </div>
+        </div>
+
+        <div id ="classesContent" class="classesContent"></div>
+    </div>
+    <footer style="display:flex; justify-content:center">
+            <p>&copy; 2024 צופית-טל פילאטיס מכשירים. כל הזכויות שמורות.</p>
+    </footer>
+
+</body>
+</html>

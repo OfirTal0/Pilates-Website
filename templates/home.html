@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="he"> <!-- Change lang attribute to "he" for Hebrew -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/js/js.js"  defer></script>
+    <title>צופית טל - פילאטיס מכשירים</title>
+</head>
+<body>
+    <div class="columnContainer">
+        <div class="navbar">
+            <div class="rightlinks">
+                {% if user_type == "guest" %}
+                <a href="/login_page">כניסה\הרשמה</a>
+                {% elif user_type == "user" or user_type == "admin" %}
+                <div style="display:flex; flex-direction:column;align-items:center;gap:0px;">
+                <h3 style="margin:2px;">שלום {{username}}</h3>
+                <a href="/logout">התנתק\י</a>
+                </div>
+                {% endif %}
+                <a href="https://www.facebook.com/pilatestsofit?locale=he_IL"><img class="linkimg" src="/static/images/facebook.png" ></a>
+                <a href="https://www.instagram.com/tsofit_tal__pilates/"><img class="linkimg" src="/static/images/instagram.png" ></a>
+                <a href="whatsapp://send?phone=+972502558222"><img class="linkimg" src="/static/images/whatsapp.png"></a>
+
+            </div>
+            <div class="middlelinks">
+                <a href="/">ראשי</a>
+                <a href="#על-הסטודיו">על הסטודיו</a>
+                <a href="#מערכת-שעות">מערכת שעות</a>
+                <a href="#גלריה">גלריה</a>
+                <a href="#יצירת-קשר">יצירת קשר</a>
+                {%if user_type== "admin"%}
+                <a href="/admin">ניהול</a>
+                {% endif %}
+            </div>
+
+            <div class="logo">
+                <a href=""><img class="logo" src="/static/images/logo.png" ></a>
+            </div>
+        </div>
+        <div id="intro" class="intro">
+            <h1>צופית טל פילאטיס מכשירים</h1>
+            <h2>פילאטיס מכשירים בהדרכה מקצועית - </h2>
+            <h3>צופית טל - ראשל"צ - 050-255-8222</h3>
+            <a id="classesLink" class="buttondec" href="/classes">להזמנת שיעורים למתאמנים</a>
+        </div>
+        <div id="על-הסטודיו" class="book">
+            <div class="info">
+            <div style="display:flex; flex-direction: column; align-items:center;">
+                <h3 style="color:black">על הסטודיו</h3>
+                <div class="text">
+                    <div class="">פילאטיס מכשירים בהדרכה מקצועית </div>
+                    <div class="">וותק של מעל עשר שנים </div>
+                    <a class="button" href="#יצירת-קשר">להזמנת שיעור ניסיון</a>
+                </div>
+            </div>
+
+            </div>
+            <h3 style="color:black">אימוני הסטודיו</h3>
+            <div class="classes">
+                <div id="class1" onmouseleave="classBasic(event)" onmouseover="classInfo(event)" class="class class1">
+                </div>
+                <div  id="class2" onmouseleave="classBasic(event)" onmouseover="classInfo(event)" class="class class2">
+                </div>
+                <div  id="class3" onmouseleave="classBasic(event)" onmouseover="classInfo(event)" class="class class3">
+                </div>
+            </div>
+        </div>
+        <div id="מערכת-שעות" class="clanderdiv">
+            <h3 style="color:black">מערכת שעות</h3>
+            <img class="calender" src="/static/images/calender.png">
+        </div>
+        <div class="info">
+            <div id="גלריה" class="image-slider">
+                <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+                <img src="/static/images/img1.png" class="image-slide" alt="Image 1">
+                <img src="/static/images/img2.png" class="image-slide" alt="Image 2">
+                <img src="/static/images/img3.png" class="image-slide" alt="Image 3">
+                <img src="/static/images/img5.png" class="image-slide" alt="Image 5">
+                <img src="/static/images/img6.png" class="image-slide" alt="Image 6">
+                <img src="/static/images/img7.png" class="image-slide" alt="Image 7">
+                <button class="next" onclick="plusSlides(1)">&#10095;</button>
+            </div>
+        </div>
+        <div id="יצירת-קשר" class="contactUs">
+            <div id="contactForm" class="contactForm">
+                <h2>רוצה להתחיל את השינוי ?</h2>
+                <h3>השאירי פרטים</h3>
+                <form id="leadForm" style="display:flex; flex-direction:column; gap:20px;">
+                    <input class="contactInput" type="text" name="name" placeholder="שם מלא">
+                    <input class="contactInput" type="phone" name="phone" placeholder="טלפון">
+                    <input class="contactSubmit" type="submit" value="קדימה!">
+                </form>
+            </div>
+            <div id="contactSubmit" style="display:flex; flex-direction:column; align-items:center; gap:20px; display:none;">
+                <img src="/static/images/like.png" class="logo">
+                <h2>קיבלנו את הפרטים!</h2>
+                <h3>נחזור אלייך בהקדם</h3>
+            </div>
+            <div >
+                <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d54154.96627663298!2d34.80055550546687!3d31.96943069303132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1502b3f1a63fcd6b%3A0xe2b774e4ed1063a1!2z16fXqNeZ16og15fXqteg15kg16TXqNehINeg15XXkdecLCDXqNeQ16nXldefINec16bXmdeV158!5e0!3m2!1siw!2sil!4v1710597435819!5m2!1siw!2sil" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>צופית טל - פילאטיס מכשירים | ראשל"צ | פרס נובל | 050-8520202 </p>
+        <p>&copy; 2024 כל הזכויות שמורות</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/js/admin.js" defer></script>
+
+    <title>ניהול</title>
+</head>
+<body>
+    <div class="columnContainer">
+        <div class="navbar">
+            <div class="rightlinks">
+                {% if user_type == "guest" %}
+                <a href="/login_page">כניסה\הרשמה</a>
+                {% elif user_type == "user" or user_type == "admin" %}
+                <div style="display:flex; flex-direction:column;align-items:center;gap:0px;">
+                <h3 style="margin:2px;">שלום {{username}}</h3>
+                <a href="/logout">התנתק\י</a>
+                </div>
+                {% endif %}
+                <a href="https://www.facebook.com/pilatestsofit?locale=he_IL"><img class="linkimg" src="/static/images/facebook.png" ></a>
+                <a href="https://www.instagram.com/tsofit_tal__pilates/"><img class="linkimg" src="/static/images/instagram.png" ></a>
+                <a href="whatsapp://send?phone=+972502558222"><img class="linkimg" src="/static/images/whatsapp.png"></a>
+
+            </div>
+            <div class="middlelinks">
+                <a href="/">ראשי</a>
+                <a href="#על-הסטודיו">על הסטודיו</a>
+                <a href="#מערכת-שעות">מערכת שעות</a>
+                <a href="#גלריה">גלריה</a>
+                <a href="#יצירת-קשר">יצירת קשר</a>
+                {%if user_type== "admin"%}
+                <a href="/admin">ניהול</a>
+                {% endif %}
+            </div>
+
+            <div class="logo">
+                <a href=""><img class="logo" src="/static/images/logo.png" ></a>
+            </div>
+        </div>
+
+        <div id ="adminContent" class="adminContent">
+            <h2 style="color:black;">אזור ניהול</h2>
+            <div class="">
+                <button id="leadsButton" onclick="adminSection(event)">לידים</button>
+                <button id="usersButton" onclick="adminSection(event)">יוזרים</button>
+                <button id="classesButton" onclick="adminSection(event)">שיעורים</button>
+            </div>
+            <div id="leadsSection" class="leadSection">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>שם מלא</th>
+                            <th>טלפון</th>
+                            <th>תאריך יצירת קשר</th>
+                            <th>האם נוצר קשר?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in leads %}
+                        <tr>
+                            <td>{{ lead[1] }}</td>
+                            <td>{{ lead[2] }}</td>
+                            <td>{{ lead[3] }}</td>
+                            {%if lead[4] == "yes" %}
+                                <td>נוצר קשר בתאריך {{lead[5]}}</td>
+                            {%elif lead[4] == "no" %}
+                            <td>
+                            <form action="/admin" method="POST">
+                                <input type="checkbox" name="action" value="contact">
+                                <input type="hidden" name="lead_id" value={{lead[0]}}>
+                                <input type="submit" value="שמור">
+                            </form>
+                        </td>
+                            {%endif%}
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id= "usersSection" class="usersSection" style="display: none;">
+                <div >
+                    <button onclick="addUserSection()">הוספת יוזר חדש</button>
+                    <div id="addUserForm" style="display:none; margin:10px;">
+                        <form action="/admin" method="POST">
+                            <input type="hidden" name="action" value="add_user">
+                            <label for="">שם משתמש:</label>
+                            <input style="width:20vw;" name="username" type="text" placeholder=" יש להכניס בפורמט: שם_שם משפחה" >
+                            <label for="">הרשאה</label>
+                            <input style="width:fit-content;" name="permission" type="text" placeholder="admin / user" >
+                            <input type="submit" value="הוספה">
+                        </form>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>שם משתמש</th>
+                            <th>הרשאות</th>
+                            <th>איפוס סיסמא</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>
+                                <div class="">{{ user[1] }}</div>
+                                <form action="/admin" method="POST">
+                                    <input type="hidden" name="action" value="delete_user">
+                                    <input type="hidden" name="user_id" value={{user[0]}}>
+                                    <input type="submit" value="מחק">
+                                </form>
+
+                            </td>
+                            <td>{{ user[3] }}</td>
+                                                      <td>
+                            <form action="/admin" method="POST">
+                                <input type="checkbox" name="action" value="reset_password">
+                                <input type="hidden" name="user_id" value={{user[0]}}>
+                                <input type="submit" value="איפוס">
+                            </form>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div id= "classesSection" class="classesSection" style="display: none;">
+                <div class="">
+                    <button onclick="addClassSection()">הוספת שיעור חדש</button>
+                    <div id="addClassForm" style="display:none; margin:10px;">
+                        <form action="/admin" method="POST">
+                            <input type="hidden" name="action" value="add_class">
+                            <label for="">שם שיעור:</label>
+                            <input style="width:20vw;" name="class_name" type="text" placeholder="שם השיעור" >
+                            <label for="">יום</label>
+                            <input style="width:fit-content;" name="day" type="text" placeholder="יום" >
+                            <label for="">שעה</label>
+                            <input style="width:fit-content;" name="hour" type="text" placeholder="שעה בפורמט 'xx'" >
+                            <input type="submit" value="הוספה">
+                        </form>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>שם שיעור</th>
+                            <th>יום</th>
+                            <th>שעה</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for classitem in classes %}
+                        <tr>
+                            <td>
+                                <div class="">{{ classitem[1] }}</div>
+                                <form action="/admin" method="POST">
+                                    <input type="hidden" name="action" value="delete_class">
+                                    <input type="hidden" name="class_id" value={{classitem[0]}}>
+                                    <input type="submit" value="מחק">
+                                </form>
+
+                            </td>
+                            <td>{{ classitem[2] }}</td>
+                            <td>{{ classitem[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>    
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/js/js.js"  defer></script>
+    <title>התחברות</title>
+</head>
+<body>
+
+    <div class="loginContainer">
+        <a href="/"><img  class="homelogo" src="/static/images/home.png" ></a>
+            <div class="boxlogin">
+                <form class="columnContainer" id="loginForm" action="/login" method="POST" >
+                    <input onchange="this.style.backgroundColor='field';"  type="text" class="input" name="username" id="username" placeholder="שם משתמש">
+                    <input onchange="this.style.backgroundColor='field';" type="password" class="input" name="password" id="password" placeholder="סיסמא">
+                </form> 
+                <button onclick="validateLogin()" class="botton">התחבר\י</button>    
+                <div id="message" class="message"></div>
+
+                {{message}}
+                {{error}}
+            </div>
+        </div>
+
+</body>
+</html>
